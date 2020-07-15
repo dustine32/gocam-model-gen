@@ -295,6 +295,14 @@ class TestGoCamModel(unittest.TestCase):
                 result_subj_individuals.append(subject_iri)
         self.assertEqual(len(result_subj_individuals), 3)
 
+    def test_iso_mgi_filtering(self):
+        extractor = AssocExtractor(gpad_file="resources/test/mgi.gpa.MGI_1920081", filter_rule=MGIFilterRule())
+        filtered_assocs = []
+        for a in extractor.assocs:
+            if extractor.assoc_filter.validate_line(a):
+                filtered_assocs.append(a)
+        self.assertEqual(len(filtered_assocs), 1)
+
     def test_complex_shex_shape_recognition(self):
         complex_root = "GO:0032991"
         shex_helper = ShexHelper()
